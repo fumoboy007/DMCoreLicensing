@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+message SignedBundle {
+   enum KeyType {
+      KEY_TYPE_RSA_4096 = 0;
+   }
+   KeyType key_type = 1;
+   bytes public_key = 2;
+
+   enum SignatureAlgorithm {
+      SIGNATURE_ALGORITHM_RSA_PSS_SHA512 = 0;
+   }
+   SignatureAlgorithm signature_algorithm = 3;
+   bytes signature = 4;
+
+   bytes signed_message = 5;
+}

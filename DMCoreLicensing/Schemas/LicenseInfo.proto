@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+message LicenseInfo {
+   bytes computer_hardware_uuid = 1;
+
+   oneof specific_info {
+      TrialLicenseInfo trial = 2;
+      PurchasedLicenseInfo purchased = 3;
+   }
+
+   bytes extra_info = 16;
+}
+
+message TrialLicenseInfo {
+   int64 expiration_timestamp_in_sec = 1;
+}
+
+message PurchasedLicenseInfo {
+   string license_key = 1;
+}
