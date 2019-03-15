@@ -15,8 +15,15 @@
 		E64B0EBF2239A49700FB35E4 /* PurchaseActivationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64B0EBE2239A49700FB35E4 /* PurchaseActivationResponse.swift */; };
 		E64B0EC3223A1D7900FB35E4 /* License.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64B0EC2223A1D7900FB35E4 /* License.swift */; };
 		E64B0EC5223A2C2700FB35E4 /* UUID+Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64B0EC4223A2C2700FB35E4 /* UUID+Data.swift */; };
+		E64B0EFE223ADF3A00FB35E4 /* Hippolyte.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E64B0EF7223AD40800FB35E4 /* Hippolyte.framework */; };
+		E64B0F05223AED6100FB35E4 /* SwiftProtobuf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E68FB15422377FE800FB35E4 /* SwiftProtobuf.framework */; };
+		E64B0F07223AED9C00FB35E4 /* DMCoreLicensing.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = E68FB131223777F000FB35E4 /* DMCoreLicensing.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E64B0F09223AEDA600FB35E4 /* Hippolyte.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = E64B0EF7223AD40800FB35E4 /* Hippolyte.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E64B0F0A223AEDC600FB35E4 /* SwiftProtobuf.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = E68FB15422377FE800FB35E4 /* SwiftProtobuf.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E64B0F0C223B18C300FB35E4 /* LicenseManagerTests+Fixtures.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64B0F0B223B18C300FB35E4 /* LicenseManagerTests+Fixtures.swift */; };
+		E64B0F0E223B6C0F00FB35E4 /* TrialLicenseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64B0F0D223B6C0F00FB35E4 /* TrialLicenseTests.swift */; };
 		E68FB13B223777F000FB35E4 /* DMCoreLicensing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E68FB131223777F000FB35E4 /* DMCoreLicensing.framework */; };
-		E68FB140223777F000FB35E4 /* DMCoreLicensingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68FB13F223777F000FB35E4 /* DMCoreLicensingTests.swift */; };
+		E68FB140223777F000FB35E4 /* LicenseManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68FB13F223777F000FB35E4 /* LicenseManagerTests.swift */; };
 		E68FB15522377FE800FB35E4 /* SwiftProtobuf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E68FB15422377FE800FB35E4 /* SwiftProtobuf.framework */; };
 		E68FB1572237801600FB35E4 /* SwiftProtobuf.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = E68FB15422377FE800FB35E4 /* SwiftProtobuf.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E68FB17122384EBB00FB35E4 /* SignedBundle.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68FB16E22384EBB00FB35E4 /* SignedBundle.pb.swift */; };
@@ -38,6 +45,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		E64B0F06223AED9000FB35E4 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				E64B0F0A223AEDC600FB35E4 /* SwiftProtobuf.framework in CopyFiles */,
+				E64B0F09223AEDA600FB35E4 /* Hippolyte.framework in CopyFiles */,
+				E64B0F07223AED9C00FB35E4 /* DMCoreLicensing.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E68FB1562237800B00FB35E4 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -59,10 +78,13 @@
 		E64B0EBE2239A49700FB35E4 /* PurchaseActivationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseActivationResponse.swift; sourceTree = "<group>"; };
 		E64B0EC2223A1D7900FB35E4 /* License.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = License.swift; sourceTree = "<group>"; };
 		E64B0EC4223A2C2700FB35E4 /* UUID+Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UUID+Data.swift"; sourceTree = "<group>"; };
+		E64B0EF7223AD40800FB35E4 /* Hippolyte.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Hippolyte.framework; path = Carthage/Build/Mac/Hippolyte.framework; sourceTree = "<group>"; };
+		E64B0F0B223B18C300FB35E4 /* LicenseManagerTests+Fixtures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LicenseManagerTests+Fixtures.swift"; sourceTree = "<group>"; };
+		E64B0F0D223B6C0F00FB35E4 /* TrialLicenseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrialLicenseTests.swift; sourceTree = "<group>"; };
 		E68FB131223777F000FB35E4 /* DMCoreLicensing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DMCoreLicensing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E68FB135223777F000FB35E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E68FB13A223777F000FB35E4 /* DMCoreLicensingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DMCoreLicensingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		E68FB13F223777F000FB35E4 /* DMCoreLicensingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMCoreLicensingTests.swift; sourceTree = "<group>"; };
+		E68FB13F223777F000FB35E4 /* LicenseManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicenseManagerTests.swift; sourceTree = "<group>"; };
 		E68FB141223777F000FB35E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E68FB15222377D6E00FB35E4 /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
 		E68FB15422377FE800FB35E4 /* SwiftProtobuf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftProtobuf.framework; path = Carthage/Build/Mac/SwiftProtobuf.framework; sourceTree = "<group>"; };
@@ -90,6 +112,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				E68FB13B223777F000FB35E4 /* DMCoreLicensing.framework in Frameworks */,
+				E64B0F05223AED6100FB35E4 /* SwiftProtobuf.framework in Frameworks */,
+				E64B0EFE223ADF3A00FB35E4 /* Hippolyte.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -164,7 +188,9 @@
 		E68FB13E223777F000FB35E4 /* DMCoreLicensingTests */ = {
 			isa = PBXGroup;
 			children = (
-				E68FB13F223777F000FB35E4 /* DMCoreLicensingTests.swift */,
+				E68FB13F223777F000FB35E4 /* LicenseManagerTests.swift */,
+				E64B0F0B223B18C300FB35E4 /* LicenseManagerTests+Fixtures.swift */,
+				E64B0F0D223B6C0F00FB35E4 /* TrialLicenseTests.swift */,
 				E68FB141223777F000FB35E4 /* Info.plist */,
 			);
 			path = DMCoreLicensingTests;
@@ -175,6 +201,7 @@
 			children = (
 				E68FB15222377D6E00FB35E4 /* Cartfile */,
 				E68FB15422377FE800FB35E4 /* SwiftProtobuf.framework */,
+				E64B0EF7223AD40800FB35E4 /* Hippolyte.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -236,6 +263,7 @@
 			buildPhases = (
 				E68FB136223777F000FB35E4 /* Sources */,
 				E68FB137223777F000FB35E4 /* Frameworks */,
+				E64B0F06223AED9000FB35E4 /* CopyFiles */,
 				E68FB138223777F000FB35E4 /* Resources */,
 			);
 			buildRules = (
@@ -348,7 +376,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E68FB140223777F000FB35E4 /* DMCoreLicensingTests.swift in Sources */,
+				E68FB140223777F000FB35E4 /* LicenseManagerTests.swift in Sources */,
+				E64B0F0C223B18C300FB35E4 /* LicenseManagerTests+Fixtures.swift in Sources */,
+				E64B0F0E223B6C0F00FB35E4 /* TrialLicenseTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -488,8 +518,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = PVLQ49LAH3;
@@ -520,8 +549,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = PVLQ49LAH3;
@@ -551,9 +578,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = PVLQ49LAH3;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				INFOPLIST_FILE = DMCoreLicensingTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -570,9 +600,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = PVLQ49LAH3;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				INFOPLIST_FILE = DMCoreLicensingTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

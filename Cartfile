@@ -1,1 +1,2 @@
 github "apple/swift-protobuf" ~> 1.4
+github "fumoboy007/Hippolyte" "master"
