@@ -10,6 +10,9 @@ import Dispatch
 import Foundation
 import Security
 
+/**
+ Used to activate, store, and load software licenses.
+ */
 public class LicenseManager {
    // MARK: - Private Properties
 
@@ -21,6 +24,20 @@ public class LicenseManager {
 
    // MARK: - Initialization
 
+   /**
+    Initialize a `LicenseManager` with an array of public keys that are known to the application.
+
+    - Note: Normally, an application only has a single public key that is paired with the private
+    key that the activation server has access to. However, in the event that the private key is lost,
+    an application will have to maintain multiple public keys, one paired with the previous private
+    key and one paired with the new private key, in order to validate past and future licenses.
+
+    - Attention: There is no mechanism to revoke a public key. Therefore, use security best practices
+    to guard the private key. An [HSM](https://en.wikipedia.org/wiki/Hardware_security_module) is
+    recommended for generating the key pair and for computing digital signatures using the private key.
+
+    - Parameter knownPublicKeys: An array of public keys. The keys must be exportable.
+    */
    public init(knownPublicKeys: [SecKey]) {
       // `SecKey` is composed of the key data as well as various attributes (e.g. what the
       // key can be used for). The values of these attributes depend on how the key was
@@ -51,6 +68,16 @@ public class LicenseManager {
       case licenseValidationFailure(LicenseValidationError)
    }
 
+   /**
+    Load and validate the stored license, if any.
+
+    - Attention: This function only validates the integrity of the stored license. The caller is
+    responsible for performing additional license validation (e.g. enforcing trial expiration).
+
+    - Throws: `LicenseLoadError` if the license failed to be loaded or validated.
+
+    - Returns: The license, if any.
+    */
    public func loadLicense() throws -> License? {
       guard let signedBundleData = UserDefaults.standard.data(forKey: UserDefaultsKeys.license) else {
          return nil
@@ -88,9 +115,48 @@ public class LicenseManager {
       case missingData
    }
 
+   /**
+    Send a request to the activation server to activate a trial for this computer.
+
+    - Attention: The activation server may return an existing trial license if a trial was previously
+    activated on this computer. This function only validates the integrity of the license. The caller
+    is responsible for performing additional license validation (e.g. enforcing trial expiration).
+
+    # Request Structure
+
+    The request will use the HTTP `POST` method. The request JSON looks like
+    ```
+    {
+      "computer_hardware_uuid": "9CAE2AA4-3268-4AF7-A75D-7B176251F0A7"
+    }
+    ```
+
+    # Response Structure
+
+    The activation server must respond with a 200 status code if it is sending a JSON payload; any
+    other status code will be regarded as a rejection of the request.
+
+    The response JSON looks like
+    ```
+    {
+      "signed_license": "<base64-encoded data>"
+    }
+    ```
+
+    The value of `signed_license` is a `LicenseInfo` struct wrapped in a `SignedBundle` struct,
+    serialized using the Protocol Buffers library. See `SignedBundle.proto` and `LicenseInfo.proto`
+    for the Protocol Buffers schemas.
+
+    - Parameter endpointURL: The HTTP(S) URL of the trial activation endpoint. HTTPS is recommended
+                             over plaintext HTTP.
+    - Parameter completionQueue: The dispatch queue that the completion handler will run on.
+    - Parameter completionHandler: The closure that is called when the activation succeeds or fails.
+    - Parameter result: The license or an `ActivationError`. Note that the trial activation endpoint will
+                        return a purchased license if a purchase was previously activated on this computer.
+    */
    public func activateTrial(usingEndpoint endpointURL: URL,
                              runningCompletionHandlerOn completionQueue: DispatchQueue,
-                             completionHandler: @escaping (Result<License, ActivationError>) -> Void) {
+                             completionHandler: @escaping (_ result: Result<License, ActivationError>) -> Void) {
       guard let hardwareUUID = SystemInformation.shared.hardwareUUID else {
          completionQueue.async {
             completionHandler(.failure(.missingSystemInformation))
@@ -143,10 +209,61 @@ public class LicenseManager {
       }
    }
 
+   /**
+    Send a request to the activation server to activate a purchase for this computer.
+
+    # Request Structure
+
+    The request will use the HTTP `POST` method. The request JSON looks like
+    ```
+    {
+      "computer_hardware_uuid": "9CAE2AA4-3268-4AF7-A75D-7B176251F0A7",
+      "license_key": "<user’s license key>"
+    }
+    ```
+
+    # Response Structure
+
+    The activation server must respond with a 200 status code if it is sending a JSON payload; any
+    other status code will be regarded as a rejection of the request.
+
+    ## Successful Activation
+
+    The response JSON for a successful activation looks like
+    ```
+    {
+      "signed_license": "<base64-encoded data>"
+    }
+    ```
+
+    The value of `signed_license` is a `LicenseInfo` struct wrapped in a `SignedBundle` struct,
+    serialized using the Protocol Buffers library. See `SignedBundle.proto` and `LicenseInfo.proto`
+    for the Protocol Buffers schemas.
+
+    ## Failed Activation
+
+    The response JSON for a failed activation looks like
+    ```
+    {
+      "activation_error": "<error code>"
+    }
+    ```
+
+    The value of `activation_error` can be one of the following:
+    - `license_key_not_found`
+    - `license_quota_exceeded`
+
+    - Parameter licenseKey: The license key that corresponds to the user’s purchase.
+    - Parameter endpointURL: The HTTP(S) URL of the purchase activation endpoint. HTTPS is
+                             recommended over plaintext HTTP.
+    - Parameter completionQueue: The dispatch queue that the completion handler will run on.
+    - Parameter completionHandler: The closure that is called when the activation succeeds or fails.
+    - Parameter result: The license or an `ActivationError`.
+    */
    public func activatePurchase(forLicenseKey licenseKey: String,
                                 usingEndpoint endpointURL: URL,
                                 runningCompletionHandlerOn completionQueue: DispatchQueue,
-                                completionHandler: @escaping (Result<PurchasedLicense, ActivationError>) -> Void) {
+                                completionHandler: @escaping (_ result: Result<PurchasedLicense, ActivationError>) -> Void) {
       guard let hardwareUUID = SystemInformation.shared.hardwareUUID else {
          completionQueue.async {
             completionHandler(.failure(.missingSystemInformation))

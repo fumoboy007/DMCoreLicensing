@@ -13,6 +13,10 @@ public struct TrialLicense {
 
    public let expirationDate: Date
 
+   /**
+    Arbitrary information that the activation server can attach to the license and
+    that the application can use to implement its software licensing model.
+    */
    public let extraInfo: Data
 
    // MARK: - Initialization
