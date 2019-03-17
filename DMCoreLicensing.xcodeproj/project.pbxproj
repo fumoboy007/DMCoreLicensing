@@ -20,14 +20,14 @@
 		E64B0F07223AED9C00FB35E4 /* DMCoreLicensing.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = E68FB131223777F000FB35E4 /* DMCoreLicensing.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E64B0F09223AEDA600FB35E4 /* Hippolyte.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = E64B0EF7223AD40800FB35E4 /* Hippolyte.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E64B0F0A223AEDC600FB35E4 /* SwiftProtobuf.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = E68FB15422377FE800FB35E4 /* SwiftProtobuf.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		E64B0F0C223B18C300FB35E4 /* LicenseManagerTests+Fixtures.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64B0F0B223B18C300FB35E4 /* LicenseManagerTests+Fixtures.swift */; };
+		E64B0F0C223B18C300FB35E4 /* LicenseClientTests+Fixtures.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64B0F0B223B18C300FB35E4 /* LicenseClientTests+Fixtures.swift */; };
 		E64B0F0E223B6C0F00FB35E4 /* TrialLicenseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64B0F0D223B6C0F00FB35E4 /* TrialLicenseTests.swift */; };
 		E68FB13B223777F000FB35E4 /* DMCoreLicensing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E68FB131223777F000FB35E4 /* DMCoreLicensing.framework */; };
-		E68FB140223777F000FB35E4 /* LicenseManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68FB13F223777F000FB35E4 /* LicenseManagerTests.swift */; };
+		E68FB140223777F000FB35E4 /* LicenseClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68FB13F223777F000FB35E4 /* LicenseClientTests.swift */; };
 		E68FB15522377FE800FB35E4 /* SwiftProtobuf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E68FB15422377FE800FB35E4 /* SwiftProtobuf.framework */; };
 		E68FB1572237801600FB35E4 /* SwiftProtobuf.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = E68FB15422377FE800FB35E4 /* SwiftProtobuf.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E68FB17122384EBB00FB35E4 /* SignedBundle.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68FB16E22384EBB00FB35E4 /* SignedBundle.pb.swift */; };
-		E68FB175223850EA00FB35E4 /* LicenseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68FB174223850EA00FB35E4 /* LicenseManager.swift */; };
+		E68FB175223850EA00FB35E4 /* LicenseClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68FB174223850EA00FB35E4 /* LicenseClient.swift */; };
 		E68FB17B2238523600FB35E4 /* TrialLicense.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68FB17A2238523600FB35E4 /* TrialLicense.swift */; };
 		E68FB18722386BEE00FB35E4 /* LicenseInfo.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68FB18622386BEE00FB35E4 /* LicenseInfo.pb.swift */; };
 		E68FB18922386C2100FB35E4 /* PurchasedLicense.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68FB18822386C2100FB35E4 /* PurchasedLicense.swift */; };
@@ -79,19 +79,19 @@
 		E64B0EC2223A1D7900FB35E4 /* License.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = License.swift; sourceTree = "<group>"; };
 		E64B0EC4223A2C2700FB35E4 /* UUID+Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UUID+Data.swift"; sourceTree = "<group>"; };
 		E64B0EF7223AD40800FB35E4 /* Hippolyte.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Hippolyte.framework; path = Carthage/Build/Mac/Hippolyte.framework; sourceTree = "<group>"; };
-		E64B0F0B223B18C300FB35E4 /* LicenseManagerTests+Fixtures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LicenseManagerTests+Fixtures.swift"; sourceTree = "<group>"; };
+		E64B0F0B223B18C300FB35E4 /* LicenseClientTests+Fixtures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LicenseClientTests+Fixtures.swift"; sourceTree = "<group>"; };
 		E64B0F0D223B6C0F00FB35E4 /* TrialLicenseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrialLicenseTests.swift; sourceTree = "<group>"; };
 		E68FB131223777F000FB35E4 /* DMCoreLicensing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DMCoreLicensing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E68FB135223777F000FB35E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E68FB13A223777F000FB35E4 /* DMCoreLicensingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DMCoreLicensingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		E68FB13F223777F000FB35E4 /* LicenseManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicenseManagerTests.swift; sourceTree = "<group>"; };
+		E68FB13F223777F000FB35E4 /* LicenseClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicenseClientTests.swift; sourceTree = "<group>"; };
 		E68FB141223777F000FB35E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E68FB15222377D6E00FB35E4 /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
 		E68FB15422377FE800FB35E4 /* SwiftProtobuf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftProtobuf.framework; path = Carthage/Build/Mac/SwiftProtobuf.framework; sourceTree = "<group>"; };
 		E68FB15D2237815600FB35E4 /* LicenseInfo.proto */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.protobuf; path = LicenseInfo.proto; sourceTree = "<group>"; };
 		E68FB16822378B9E00FB35E4 /* SignedBundle.proto */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.protobuf; path = SignedBundle.proto; sourceTree = "<group>"; };
 		E68FB16E22384EBB00FB35E4 /* SignedBundle.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignedBundle.pb.swift; sourceTree = "<group>"; };
-		E68FB174223850EA00FB35E4 /* LicenseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicenseManager.swift; sourceTree = "<group>"; };
+		E68FB174223850EA00FB35E4 /* LicenseClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicenseClient.swift; sourceTree = "<group>"; };
 		E68FB17A2238523600FB35E4 /* TrialLicense.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrialLicense.swift; sourceTree = "<group>"; };
 		E68FB18622386BEE00FB35E4 /* LicenseInfo.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LicenseInfo.pb.swift; sourceTree = "<group>"; };
 		E68FB18822386C2100FB35E4 /* PurchasedLicense.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchasedLicense.swift; sourceTree = "<group>"; };
@@ -174,7 +174,7 @@
 			isa = PBXGroup;
 			children = (
 				E64B0EB02238D38300FB35E4 /* License Types */,
-				E68FB174223850EA00FB35E4 /* LicenseManager.swift */,
+				E68FB174223850EA00FB35E4 /* LicenseClient.swift */,
 				E64B0EB72239A0B900FB35E4 /* Endpoint Types */,
 				E64B0EAF2238D37300FB35E4 /* Extensions and Utilities */,
 				E68FB15F2237816100FB35E4 /* Schemas */,
@@ -188,8 +188,8 @@
 		E68FB13E223777F000FB35E4 /* DMCoreLicensingTests */ = {
 			isa = PBXGroup;
 			children = (
-				E68FB13F223777F000FB35E4 /* LicenseManagerTests.swift */,
-				E64B0F0B223B18C300FB35E4 /* LicenseManagerTests+Fixtures.swift */,
+				E68FB13F223777F000FB35E4 /* LicenseClientTests.swift */,
+				E64B0F0B223B18C300FB35E4 /* LicenseClientTests+Fixtures.swift */,
 				E64B0F0D223B6C0F00FB35E4 /* TrialLicenseTests.swift */,
 				E68FB141223777F000FB35E4 /* Info.plist */,
 			);
@@ -357,7 +357,7 @@
 			files = (
 				E68FB17B2238523600FB35E4 /* TrialLicense.swift in Sources */,
 				E64B0EB92239A12000FB35E4 /* TrialActivationRequest.swift in Sources */,
-				E68FB175223850EA00FB35E4 /* LicenseManager.swift in Sources */,
+				E68FB175223850EA00FB35E4 /* LicenseClient.swift in Sources */,
 				E64B0EC3223A1D7900FB35E4 /* License.swift in Sources */,
 				E68FB18922386C2100FB35E4 /* PurchasedLicense.swift in Sources */,
 				E64B0EBD2239A34A00FB35E4 /* PurchaseActivationRequest.swift in Sources */,
@@ -376,8 +376,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E68FB140223777F000FB35E4 /* LicenseManagerTests.swift in Sources */,
-				E64B0F0C223B18C300FB35E4 /* LicenseManagerTests+Fixtures.swift in Sources */,
+				E68FB140223777F000FB35E4 /* LicenseClientTests.swift in Sources */,
+				E64B0F0C223B18C300FB35E4 /* LicenseClientTests+Fixtures.swift in Sources */,
 				E64B0F0E223B6C0F00FB35E4 /* TrialLicenseTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

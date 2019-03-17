@@ -4,10 +4,6 @@ A macOS library that implements robust activation and validation of software lic
 
 Requires at least Swift 4.2. Tested on macOS 10.14. MIT license.
 
-## Usage
-
-See the `LicenseManager` documentation.
-
 ## Design
 
 ### Goals
@@ -76,3 +72,7 @@ The application is responsible for performing additional license validation (e.g
   - HTTP(S) and JSON are widely supported, so using these technologies keeps the number of dependencies under control.
   - Applications should use [HTTPS](https://en.wikipedia.org/wiki/HTTPS) instead of plaintext HTTP.
 - [Digital signatures](https://en.wikipedia.org/wiki/Digital_signature), as explained in the License Validation section.
+
+## Usage
+
+See the `LicenseClient` documentation.

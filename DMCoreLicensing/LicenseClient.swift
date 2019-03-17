@@ -1,10 +1,24 @@
+// MIT License
 //
-//  LicenseManager.swift
-//  DMCoreLicensing
+// Copyright © 2019 Darren Mo.
 //
-//  Created by Darren Mo on 2019-03-12.
-//  Copyright © 2019 Darren Mo. All rights reserved.
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
 //
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
 
 import Dispatch
 import Foundation
@@ -13,7 +27,7 @@ import Security
 /**
  Used to activate, store, and load software licenses.
  */
-public class LicenseManager {
+public class LicenseClient {
    // MARK: - Private Properties
 
    private let knownPublicKeys: [Data]
@@ -25,7 +39,7 @@ public class LicenseManager {
    // MARK: - Initialization
 
    /**
-    Initialize a `LicenseManager` with an array of public keys that are known to the application.
+    Initialize a `LicenseClient` with an array of public keys that are known to the application.
 
     - Note: Normally, an application only has a single public key that is paired with the private
     key that the activation server has access to. However, in the event that the private key is lost,
@@ -88,7 +102,7 @@ public class LicenseManager {
       } catch let error as LicenseValidationError {
          throw LicenseLoadError.licenseValidationFailure(error)
       } catch {
-         preconditionFailure("Unexpected error from `LicenseManager.extractLicense`: \(error).")
+         preconditionFailure("Unexpected error from `LicenseClient.extractLicense`: \(error).")
       }
    }
 
@@ -177,7 +191,7 @@ public class LicenseManager {
             }
             return
          } catch {
-            preconditionFailure("Unexpected error from `LicenseManager.extractTrialLicense`: \(error).")
+            preconditionFailure("Unexpected error from `LicenseClient.extractTrialLicense`: \(error).")
          }
 
          self.storeLicense(signedBundleData: signedBundleData)
@@ -199,7 +213,7 @@ public class LicenseManager {
          } catch let error as LicenseValidationError {
             throw ActivationError.licenseValidationFailure(error)
          } catch {
-            preconditionFailure("Unexpected error from `LicenseManager.extractLicense`: \(error).")
+            preconditionFailure("Unexpected error from `LicenseClient.extractLicense`: \(error).")
          }
 
          return (license, signedBundleData)
@@ -285,7 +299,7 @@ public class LicenseManager {
             }
             return
          } catch {
-            preconditionFailure("Unexpected error from `LicenseManager.extractPurchasedLicense`: \(error).")
+            preconditionFailure("Unexpected error from `LicenseClient.extractPurchasedLicense`: \(error).")
          }
 
          self.storeLicense(signedBundleData: signedBundleData)
@@ -322,7 +336,7 @@ public class LicenseManager {
          } catch let error as LicenseValidationError {
             throw ActivationError.licenseValidationFailure(error)
          } catch {
-            preconditionFailure("Unexpected error from `LicenseManager.extractLicense`: \(error).")
+            preconditionFailure("Unexpected error from `LicenseClient.extractLicense`: \(error).")
          }
 
          guard case .purchased(let purchasedLicense) = license else {

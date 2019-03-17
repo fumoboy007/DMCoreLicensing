@@ -27,17 +27,17 @@ import XCTest
 
 import Hippolyte
 
-class LicenseManagerTests: XCTestCase {
-   // MARK: - License Manager
+class LicenseClientTests: XCTestCase {
+   // MARK: - License Client
 
-   private var licenseManager: LicenseManager!
+   private var licenseClient: LicenseClient!
 
    // MARK: - Set Up/Tear Down
 
    override func setUp() {
       super.setUp()
 
-      licenseManager = LicenseManager(knownPublicKeys: [LicenseManagerTests.publicKey])
+      licenseClient = LicenseClient(knownPublicKeys: [LicenseClientTests.publicKey])
    }
 
    override func tearDown() {
@@ -78,20 +78,20 @@ class LicenseManagerTests: XCTestCase {
    // MARK: - License Validation
 
    private func testInvalidLicense(signedBundle: SignedBundle,
-                                   errorHandler: (LicenseManager.LicenseValidationError) -> Void) {
+                                   errorHandler: (LicenseClient.LicenseValidationError) -> Void) {
       storeLicense(signedBundle: signedBundle)
       testInvalidLicense(errorHandler: errorHandler)
    }
 
    private func testInvalidLicense(signedBundleData: Data,
-                                   errorHandler: (LicenseManager.LicenseValidationError) -> Void) {
+                                   errorHandler: (LicenseClient.LicenseValidationError) -> Void) {
       storeLicense(signedBundleData: signedBundleData)
       testInvalidLicense(errorHandler: errorHandler)
    }
 
-   private func testInvalidLicense(errorHandler: (LicenseManager.LicenseValidationError) -> Void) {
-      XCTAssertThrowsError(try licenseManager.loadLicense()) { error in
-         guard let licenseLoadError = error as? LicenseManager.LicenseLoadError else {
+   private func testInvalidLicense(errorHandler: (LicenseClient.LicenseValidationError) -> Void) {
+      XCTAssertThrowsError(try licenseClient.loadLicense()) { error in
+         guard let licenseLoadError = error as? LicenseClient.LicenseLoadError else {
             XCTFail()
             return
          }
@@ -104,7 +104,7 @@ class LicenseManagerTests: XCTestCase {
    }
 
    func testMalformedSignedBundleData() {
-      testInvalidLicense(signedBundleData: LicenseManagerTests.makeMalformedSignedBundleData()) { error in
+      testInvalidLicense(signedBundleData: LicenseClientTests.makeMalformedSignedBundleData()) { error in
          switch error {
          case .deserializationFailure(_):
             break
@@ -116,7 +116,7 @@ class LicenseManagerTests: XCTestCase {
    }
 
    func testSignedBundleWithUnsupportedKeyType() {
-      testInvalidLicense(signedBundle: LicenseManagerTests.makeSignedBundleWithUnsupportedKeyType()) { error in
+      testInvalidLicense(signedBundle: LicenseClientTests.makeSignedBundleWithUnsupportedKeyType()) { error in
          switch error {
          case .unsupportedKeyType(_):
             break
@@ -128,7 +128,7 @@ class LicenseManagerTests: XCTestCase {
    }
 
    func testSignedBundleWithInvalidPublicKey() {
-      testInvalidLicense(signedBundle: LicenseManagerTests.makeSignedBundleWithInvalidPublicKey()) { error in
+      testInvalidLicense(signedBundle: LicenseClientTests.makeSignedBundleWithInvalidPublicKey()) { error in
          switch error {
          case .invalidPublicKey(_, _):
             break
@@ -140,7 +140,7 @@ class LicenseManagerTests: XCTestCase {
    }
 
    func testSignedBundleWithUnknownPublicKey() {
-      testInvalidLicense(signedBundle: LicenseManagerTests.makeSignedBundleWithUnknownPublicKey()) { error in
+      testInvalidLicense(signedBundle: LicenseClientTests.makeSignedBundleWithUnknownPublicKey()) { error in
          switch error {
          case .unknownPublicKey(_):
             break
@@ -152,7 +152,7 @@ class LicenseManagerTests: XCTestCase {
    }
 
    func testSignedBundleWithUnsupportedSignatureAlgorithm() {
-      testInvalidLicense(signedBundle: LicenseManagerTests.makeSignedBundleWithUnsupportedSignatureAlgorithm()) { error in
+      testInvalidLicense(signedBundle: LicenseClientTests.makeSignedBundleWithUnsupportedSignatureAlgorithm()) { error in
          switch error {
          case .unsupportedSignatureAlgorithm(_):
             break
@@ -164,7 +164,7 @@ class LicenseManagerTests: XCTestCase {
    }
 
    func testSignedBundleWithInvalidSignature() {
-      testInvalidLicense(signedBundle: LicenseManagerTests.makeSignedBundleWithInvalidSignature()) { error in
+      testInvalidLicense(signedBundle: LicenseClientTests.makeSignedBundleWithInvalidSignature()) { error in
          switch error {
          case .invalidSignature(_):
             break
@@ -176,7 +176,7 @@ class LicenseManagerTests: XCTestCase {
    }
 
    func testLicenseInfoForDifferentComputer() {
-      let signedBundle = LicenseManagerTests.makeValidSignedBundle(for: LicenseManagerTests.makeLicenseInfoForDifferentComputer())
+      let signedBundle = LicenseClientTests.makeValidSignedBundle(for: LicenseClientTests.makeLicenseInfoForDifferentComputer())
       testInvalidLicense(signedBundle: signedBundle) { error in
          switch error {
          case .mismatchedComputer:
@@ -189,7 +189,7 @@ class LicenseManagerTests: XCTestCase {
    }
 
    func testLicenseInfoWithMissingData() {
-      let signedBundle = LicenseManagerTests.makeValidSignedBundle(for: LicenseManagerTests.makeLicenseInfoWithMissingData())
+      let signedBundle = LicenseClientTests.makeValidSignedBundle(for: LicenseClientTests.makeLicenseInfoWithMissingData())
       testInvalidLicense(signedBundle: signedBundle) { error in
          switch error {
          case .missingData:
@@ -204,20 +204,20 @@ class LicenseManagerTests: XCTestCase {
    // MARK: - Loading the License
 
    func testLoadNonExistentLicense() throws {
-      let license = try licenseManager.loadLicense()
+      let license = try licenseClient.loadLicense()
       XCTAssertNil(license)
    }
 
    func testLoadTrialLicense() throws {
-      storeLicense(signedBundle: LicenseManagerTests.makeValidSignedBundleForTrial())
+      storeLicense(signedBundle: LicenseClientTests.makeValidSignedBundleForTrial())
 
-      let license = try licenseManager.loadLicense()
+      let license = try licenseClient.loadLicense()
       XCTAssertNotNil(license)
 
       switch license! {
       case .trial(let trialLicense):
-         XCTAssertEqual(trialLicense.expirationDate, LicenseManagerTests.expirationDate)
-         XCTAssertEqual(trialLicense.extraInfo, LicenseManagerTests.extraInfo)
+         XCTAssertEqual(trialLicense.expirationDate, LicenseClientTests.expirationDate)
+         XCTAssertEqual(trialLicense.extraInfo, LicenseClientTests.extraInfo)
 
       default:
          XCTFail()
@@ -225,15 +225,15 @@ class LicenseManagerTests: XCTestCase {
    }
 
    func testLoadPurchasedLicense() throws {
-      storeLicense(signedBundle: LicenseManagerTests.makeValidSignedBundleForPurchase())
+      storeLicense(signedBundle: LicenseClientTests.makeValidSignedBundleForPurchase())
 
-      let license = try licenseManager.loadLicense()
+      let license = try licenseClient.loadLicense()
       XCTAssertNotNil(license)
 
       switch license! {
       case .purchased(let purchasedLicense):
-         XCTAssertEqual(purchasedLicense.licenseKey, LicenseManagerTests.licenseKey)
-         XCTAssertEqual(purchasedLicense.extraInfo, LicenseManagerTests.extraInfo)
+         XCTAssertEqual(purchasedLicense.licenseKey, LicenseClientTests.licenseKey)
+         XCTAssertEqual(purchasedLicense.extraInfo, LicenseClientTests.extraInfo)
 
       default:
          XCTFail()
@@ -243,13 +243,13 @@ class LicenseManagerTests: XCTestCase {
    // MARK: - Activation
 
    private func runTrialActivation(with stubbedResponse: StubResponse,
-                                   completionHandler: @escaping (Result<License, LicenseManager.ActivationError>) -> Void) {
-      LicenseManagerTests.stubResponse(toEndpoint: LicenseManagerTests.trialActivationEndpoint,
+                                   completionHandler: @escaping (Result<License, LicenseClient.ActivationError>) -> Void) {
+      LicenseClientTests.stubResponse(toEndpoint: LicenseClientTests.trialActivationEndpoint,
                                        with: stubbedResponse)
       Hippolyte.shared.start()
 
       let expectation = self.expectation(description: "Completion handler was called.")
-      licenseManager.activateTrial(usingEndpoint: LicenseManagerTests.trialActivationEndpoint, runningCompletionHandlerOn: DispatchQueue.global()) { result in
+      licenseClient.activateTrial(usingEndpoint: LicenseClientTests.trialActivationEndpoint, runningCompletionHandlerOn: DispatchQueue.global()) { result in
          completionHandler(result)
 
          expectation.fulfill()
@@ -259,13 +259,13 @@ class LicenseManagerTests: XCTestCase {
    }
 
    private func runPurchaseActivation(with stubbedResponse: StubResponse,
-                                      completionHandler: @escaping (Result<PurchasedLicense, LicenseManager.ActivationError>) -> Void) {
-      LicenseManagerTests.stubResponse(toEndpoint: LicenseManagerTests.purchaseActivationEndpoint,
+                                      completionHandler: @escaping (Result<PurchasedLicense, LicenseClient.ActivationError>) -> Void) {
+      LicenseClientTests.stubResponse(toEndpoint: LicenseClientTests.purchaseActivationEndpoint,
                                        with: stubbedResponse)
       Hippolyte.shared.start()
 
       let expectation = self.expectation(description: "Completion handler was called.")
-      licenseManager.activatePurchase(forLicenseKey: LicenseManagerTests.licenseKey, usingEndpoint: LicenseManagerTests.purchaseActivationEndpoint, runningCompletionHandlerOn: DispatchQueue.global()) { result in
+      licenseClient.activatePurchase(forLicenseKey: LicenseClientTests.licenseKey, usingEndpoint: LicenseClientTests.purchaseActivationEndpoint, runningCompletionHandlerOn: DispatchQueue.global()) { result in
          completionHandler(result)
 
          expectation.fulfill()
@@ -275,11 +275,11 @@ class LicenseManagerTests: XCTestCase {
    }
 
    func testValidTrialActivationResponse() {
-      runTrialActivation(with: LicenseManagerTests.makeValidTrialActivationResponse()) { result in
+      runTrialActivation(with: LicenseClientTests.makeValidTrialActivationResponse()) { result in
          switch result {
          case .success(.trial(let trialLicense)):
-            XCTAssertEqual(trialLicense.expirationDate, LicenseManagerTests.expirationDate)
-            XCTAssertEqual(trialLicense.extraInfo, LicenseManagerTests.extraInfo)
+            XCTAssertEqual(trialLicense.expirationDate, LicenseClientTests.expirationDate)
+            XCTAssertEqual(trialLicense.extraInfo, LicenseClientTests.extraInfo)
 
          default:
             XCTFail()
@@ -288,11 +288,11 @@ class LicenseManagerTests: XCTestCase {
    }
 
    func testValidTrialActivationResponseWithPurchasedLicense() {
-      runTrialActivation(with: LicenseManagerTests.makeValidTrialActivationResponseWithPurchasedLicense()) { result in
+      runTrialActivation(with: LicenseClientTests.makeValidTrialActivationResponseWithPurchasedLicense()) { result in
          switch result {
          case .success(.purchased(let purchasedLicense)):
-            XCTAssertEqual(purchasedLicense.licenseKey, LicenseManagerTests.licenseKey)
-            XCTAssertEqual(purchasedLicense.extraInfo, LicenseManagerTests.extraInfo)
+            XCTAssertEqual(purchasedLicense.licenseKey, LicenseClientTests.licenseKey)
+            XCTAssertEqual(purchasedLicense.extraInfo, LicenseClientTests.extraInfo)
 
          default:
             XCTFail()
@@ -301,11 +301,11 @@ class LicenseManagerTests: XCTestCase {
    }
 
    func testValidPurchaseActivationResponse() {
-      runPurchaseActivation(with: LicenseManagerTests.makeValidPurchaseActivationResponse()) { result in
+      runPurchaseActivation(with: LicenseClientTests.makeValidPurchaseActivationResponse()) { result in
          switch result {
          case .success(let purchasedLicense):
-            XCTAssertEqual(purchasedLicense.licenseKey, LicenseManagerTests.licenseKey)
-            XCTAssertEqual(purchasedLicense.extraInfo, LicenseManagerTests.extraInfo)
+            XCTAssertEqual(purchasedLicense.licenseKey, LicenseClientTests.licenseKey)
+            XCTAssertEqual(purchasedLicense.extraInfo, LicenseClientTests.extraInfo)
 
          default:
             XCTFail()
@@ -314,7 +314,7 @@ class LicenseManagerTests: XCTestCase {
    }
 
    func testNetworkFailure() {
-      runTrialActivation(with: LicenseManagerTests.makeNetworkFailureResponse()) { result in
+      runTrialActivation(with: LicenseClientTests.makeNetworkFailureResponse()) { result in
          switch result {
          case .failure(.networkFailure(_)):
             break
@@ -326,7 +326,7 @@ class LicenseManagerTests: XCTestCase {
    }
 
    func testServerRejection() {
-      runTrialActivation(with: LicenseManagerTests.makeServerRejectionResponse()) { result in
+      runTrialActivation(with: LicenseClientTests.makeServerRejectionResponse()) { result in
          switch result {
          case .failure(.serverRejectedRequest(_)):
             break
@@ -338,7 +338,7 @@ class LicenseManagerTests: XCTestCase {
    }
 
    func testMalformedServerResponse() {
-      runTrialActivation(with: LicenseManagerTests.makeMalformedServerResponse()) { result in
+      runTrialActivation(with: LicenseClientTests.makeMalformedServerResponse()) { result in
          switch result {
          case .failure(.invalidServerResponse(.deserializationFailure(_))):
             break
@@ -350,7 +350,7 @@ class LicenseManagerTests: XCTestCase {
    }
 
    func testPurchaseActivationResponseWithMismatchedLicenseType() {
-      runPurchaseActivation(with: LicenseManagerTests.makePurchaseActivationResponseWithMismatchedLicenseType()) { result in
+      runPurchaseActivation(with: LicenseClientTests.makePurchaseActivationResponseWithMismatchedLicenseType()) { result in
          switch result {
          case .failure(.invalidServerResponse(.mismatchedLicenseType)):
             break
@@ -362,7 +362,7 @@ class LicenseManagerTests: XCTestCase {
    }
 
    func testPurchaseActivationResponseWithMissingData() {
-      runPurchaseActivation(with: LicenseManagerTests.makePurchaseActivationResponseWithMissingData()) { result in
+      runPurchaseActivation(with: LicenseClientTests.makePurchaseActivationResponseWithMissingData()) { result in
          switch result {
          case .failure(.invalidServerResponse(.missingData)):
             break
@@ -374,7 +374,7 @@ class LicenseManagerTests: XCTestCase {
    }
 
    func testPurchaseActivationResponseWithLicenseKeyNotFoundError() {
-      runPurchaseActivation(with: LicenseManagerTests.makePurchaseActivationResponseWithLicenseKeyNotFoundError()) { result in
+      runPurchaseActivation(with: LicenseClientTests.makePurchaseActivationResponseWithLicenseKeyNotFoundError()) { result in
          switch result {
          case .failure(.licenseKeyNotFound):
             break
@@ -386,7 +386,7 @@ class LicenseManagerTests: XCTestCase {
    }
 
    func testPurchaseActivationResponseWithLicenseQuotaExceededError() {
-      runPurchaseActivation(with: LicenseManagerTests.makePurchaseActivationResponseWithLicenseQuotaExceededError()) { result in
+      runPurchaseActivation(with: LicenseClientTests.makePurchaseActivationResponseWithLicenseQuotaExceededError()) { result in
          switch result {
          case .failure(.licenseQuotaExceeded):
             break
@@ -398,7 +398,7 @@ class LicenseManagerTests: XCTestCase {
    }
 
    func testPurchaseActivationResponseWithUnrecognizedError() {
-      runPurchaseActivation(with: LicenseManagerTests.makePurchaseActivationResponseWithUnrecognizedError()) { result in
+      runPurchaseActivation(with: LicenseClientTests.makePurchaseActivationResponseWithUnrecognizedError()) { result in
          switch result {
          case .failure(.unrecognizedServerError(_)):
             break
@@ -410,7 +410,7 @@ class LicenseManagerTests: XCTestCase {
    }
 
    func testActivationResponseWithInvalidLicense() {
-      runTrialActivation(with: LicenseManagerTests.makeActivationResponseWithInvalidLicense()) { result in
+      runTrialActivation(with: LicenseClientTests.makeActivationResponseWithInvalidLicense()) { result in
          switch result {
          case .failure(.licenseValidationFailure(_)):
             break

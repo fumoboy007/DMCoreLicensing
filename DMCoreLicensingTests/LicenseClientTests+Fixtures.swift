@@ -27,7 +27,7 @@ import Security
 
 import Hippolyte
 
-extension LicenseManagerTests {
+extension LicenseClientTests {
    // MARK: - Shared Data
 
    private static let privateKey: SecKey = {
@@ -45,8 +45,8 @@ extension LicenseManagerTests {
    static let expirationDate = Date.distantFuture
    static let licenseKey = UUID().uuidString
 
-   static let trialActivationEndpoint = URL(string: "https://api.example.com/v1/activateTrial")!
-   static let purchaseActivationEndpoint = URL(string: "https://api.example.com/v1/activatePurchase")!
+   static let trialActivationEndpoint = URL(string: "https://api.example.com/v1/activate_trial")!
+   static let purchaseActivationEndpoint = URL(string: "https://api.example.com/v1/activate_purchase")!
 
    // MARK: - Specific License Info
 
@@ -102,14 +102,14 @@ extension LicenseManagerTests {
    static func makeValidSignedBundle(for licenseInfo: LicenseInfo) -> SignedBundle {
       let licenseInfoData = try! licenseInfo.serializedData()
 
-      let signature = SecKeyCreateSignature(LicenseManagerTests.privateKey,
+      let signature = SecKeyCreateSignature(privateKey,
                                             .rsaSignatureMessagePSSSHA512,
                                             licenseInfoData as CFData,
                                             nil)! as Data
 
       var signedBundle = SignedBundle()
       signedBundle.keyType = .rsa4096
-      signedBundle.publicKey = SecKeyCopyExternalRepresentation(LicenseManagerTests.publicKey, nil)! as Data
+      signedBundle.publicKey = SecKeyCopyExternalRepresentation(publicKey, nil)! as Data
       signedBundle.signatureAlgorithm = .rsaPssSha512
       signedBundle.signature = signature
       signedBundle.signedMessage = licenseInfoData
