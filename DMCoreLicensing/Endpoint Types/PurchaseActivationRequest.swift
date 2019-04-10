@@ -23,7 +23,7 @@
 import Foundation
 
 struct PurchaseActivationRequest: Encodable {
-   let computerHardwareUUID: UUID
+   let deviceUUID: UUID
 
    let licenseKey: String
 }

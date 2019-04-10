@@ -35,22 +35,22 @@ extension PurchaseActivationResponse {
       // MARK: - Cases
 
       case licenseKeyNotFound
-      case licenseQuotaExceeded
+      case deviceQuotaExceeded
 
       case unrecognized(String)
 
       // MARK: - Raw Values
 
       private static let licenseKeyNotFoundRawValue = "license_key_not_found"
-      private static let licenseQuotaExceededRawValue = "license_quota_exceeded"
+      private static let deviceQuotaExceededRawValue = "device_quota_exceeded"
 
       init(rawValue: String) {
          switch rawValue {
          case ActivationError.licenseKeyNotFoundRawValue:
             self = .licenseKeyNotFound
 
-         case ActivationError.licenseQuotaExceededRawValue:
-            self = .licenseQuotaExceeded
+         case ActivationError.deviceQuotaExceededRawValue:
+            self = .deviceQuotaExceeded
 
          default:
             self = .unrecognized(rawValue)
@@ -62,8 +62,8 @@ extension PurchaseActivationResponse {
          case .licenseKeyNotFound:
             return ActivationError.licenseKeyNotFoundRawValue
 
-         case .licenseQuotaExceeded:
-            return ActivationError.licenseQuotaExceededRawValue
+         case .deviceQuotaExceeded:
+            return ActivationError.deviceQuotaExceededRawValue
 
          case .unrecognized(let rawValue):
             return rawValue

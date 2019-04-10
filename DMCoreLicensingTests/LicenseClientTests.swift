@@ -175,11 +175,11 @@ class LicenseClientTests: XCTestCase {
       }
    }
 
-   func testLicenseInfoForDifferentComputer() {
-      let signedBundle = LicenseClientTests.makeValidSignedBundle(for: LicenseClientTests.makeLicenseInfoForDifferentComputer())
+   func testLicenseInfoForDifferentDevice() {
+      let signedBundle = LicenseClientTests.makeValidSignedBundle(for: LicenseClientTests.makeLicenseInfoForDifferentDevice())
       testInvalidLicense(signedBundle: signedBundle) { error in
          switch error {
-         case .mismatchedComputer:
+         case .mismatchedDevice:
             break
 
          default:
@@ -385,10 +385,10 @@ class LicenseClientTests: XCTestCase {
       }
    }
 
-   func testPurchaseActivationResponseWithLicenseQuotaExceededError() {
-      runPurchaseActivation(with: LicenseClientTests.makePurchaseActivationResponseWithLicenseQuotaExceededError()) { result in
+   func testPurchaseActivationResponseWithDeviceQuotaExceededError() {
+      runPurchaseActivation(with: LicenseClientTests.makePurchaseActivationResponseWithDeviceQuotaExceededError()) { result in
          switch result {
-         case .failure(.licenseQuotaExceeded):
+         case .failure(.deviceQuotaExceeded):
             break
 
          default:

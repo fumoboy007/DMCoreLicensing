@@ -117,7 +117,7 @@ public class LicenseClient {
       case invalidServerResponse(InvalidServerResponse)
 
       case licenseKeyNotFound
-      case licenseQuotaExceeded
+      case deviceQuotaExceeded
       case unrecognizedServerError(rawValue: String)
 
       case licenseValidationFailure(LicenseValidationError)
@@ -130,10 +130,10 @@ public class LicenseClient {
    }
 
    /**
-    Send a request to the activation server to activate a trial for this computer.
+    Send a request to the activation server to activate a trial for this device.
 
     - Attention: The activation server may return an existing trial license if a trial was previously
-    activated on this computer. This function only validates the integrity of the license. The caller
+    activated on this device. This function only validates the integrity of the license. The caller
     is responsible for performing additional license validation (e.g. enforcing trial expiration).
 
     # Request Structure
@@ -141,7 +141,7 @@ public class LicenseClient {
     The request will use the HTTP `POST` method. The request JSON looks like
     ```
     {
-      "computer_hardware_uuid": "9CAE2AA4-3268-4AF7-A75D-7B176251F0A7"
+      "device_uuid": "9CAE2AA4-3268-4AF7-A75D-7B176251F0A7"
     }
     ```
 
@@ -166,19 +166,19 @@ public class LicenseClient {
     - Parameter completionQueue: The dispatch queue that the completion handler will run on.
     - Parameter completionHandler: The closure that is called when the activation succeeds or fails.
     - Parameter result: The license or an `ActivationError`. Note that the trial activation endpoint will
-                        return a purchased license if a purchase was previously activated on this computer.
+                        return a purchased license if a purchase was previously activated on this device.
     */
    public func activateTrial(usingEndpoint endpointURL: URL,
                              runningCompletionHandlerOn completionQueue: DispatchQueue,
                              completionHandler: @escaping (_ result: Result<License, ActivationError>) -> Void) {
-      guard let hardwareUUID = SystemInformation.shared.hardwareUUID else {
+      guard let deviceUUID = SystemInformation.shared.hardwareUUID else {
          completionQueue.async {
             completionHandler(.failure(.missingSystemInformation))
          }
          return
       }
 
-      let trialActivationRequest = TrialActivationRequest(computerHardwareUUID: hardwareUUID)
+      let trialActivationRequest = TrialActivationRequest(deviceUUID: deviceUUID)
 
       sendRequest(trialActivationRequest, toEndpoint: endpointURL) { (result: Result<TrialActivationResponse, ActivationError>) in
          let license: License
@@ -224,14 +224,14 @@ public class LicenseClient {
    }
 
    /**
-    Send a request to the activation server to activate a purchase for this computer.
+    Send a request to the activation server to activate a purchase for this device.
 
     # Request Structure
 
     The request will use the HTTP `POST` method. The request JSON looks like
     ```
     {
-      "computer_hardware_uuid": "9CAE2AA4-3268-4AF7-A75D-7B176251F0A7",
+      "device_uuid": "9CAE2AA4-3268-4AF7-A75D-7B176251F0A7",
       "license_key": "<user’s license key>"
     }
     ```
@@ -265,7 +265,7 @@ public class LicenseClient {
 
     The value of `activation_error` can be one of the following:
     - `license_key_not_found`
-    - `license_quota_exceeded`
+    - `device_quota_exceeded`
 
     - Parameter licenseKey: The license key that corresponds to the user’s purchase.
     - Parameter endpointURL: The HTTP(S) URL of the purchase activation endpoint. HTTPS is
@@ -278,14 +278,14 @@ public class LicenseClient {
                                 usingEndpoint endpointURL: URL,
                                 runningCompletionHandlerOn completionQueue: DispatchQueue,
                                 completionHandler: @escaping (_ result: Result<PurchasedLicense, ActivationError>) -> Void) {
-      guard let hardwareUUID = SystemInformation.shared.hardwareUUID else {
+      guard let deviceUUID = SystemInformation.shared.hardwareUUID else {
          completionQueue.async {
             completionHandler(.failure(.missingSystemInformation))
          }
          return
       }
 
-      let purchaseActivationRequest = PurchaseActivationRequest(computerHardwareUUID: hardwareUUID,
+      let purchaseActivationRequest = PurchaseActivationRequest(deviceUUID: deviceUUID,
                                                                 licenseKey: licenseKey)
 
       sendRequest(purchaseActivationRequest, toEndpoint: endpointURL) { (result: Result<PurchaseActivationResponse, ActivationError>) in
@@ -318,8 +318,8 @@ public class LicenseClient {
             case .licenseKeyNotFound:
                throw ActivationError.licenseKeyNotFound
 
-            case .licenseQuotaExceeded:
-               throw ActivationError.licenseQuotaExceeded
+            case .deviceQuotaExceeded:
+               throw ActivationError.deviceQuotaExceeded
 
             case .unrecognized(let rawValue):
                throw ActivationError.unrecognizedServerError(rawValue: rawValue)
@@ -420,7 +420,7 @@ public class LicenseClient {
       case invalidSignature(error: Error?)
 
       case missingSystemInformation
-      case mismatchedComputer
+      case mismatchedDevice
 
       case missingData
    }
@@ -442,11 +442,11 @@ public class LicenseClient {
          throw LicenseValidationError.deserializationFailure(error)
       }
 
-      guard let hardwareUUIDData = SystemInformation.shared.hardwareUUID?.data else {
+      guard let deviceUUIDData = SystemInformation.shared.hardwareUUID?.data else {
          throw LicenseValidationError.missingSystemInformation
       }
-      guard licenseInfo.computerHardwareUuid == hardwareUUIDData else {
-         throw LicenseValidationError.mismatchedComputer
+      guard licenseInfo.deviceUuid == deviceUUIDData else {
+         throw LicenseValidationError.mismatchedDevice
       }
 
       guard let specificLicenseInfo = licenseInfo.specificInfo else {

@@ -23,5 +23,5 @@
 import Foundation
 
 struct TrialActivationRequest: Encodable {
-   let computerHardwareUUID: UUID
+   let deviceUUID: UUID
 }

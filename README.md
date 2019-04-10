@@ -14,7 +14,7 @@ Requires at least Swift 4.2. Tested on macOS 10.14. MIT license.
 
 ### Specific Requirements
 
-- Modifying the executable should be the only way for a user to bypass the license activation.
+- Modifying the executable should be the only way for a user to bypass the license activation mechanism.
   - A user should not be able to bypass by modifying a file, intercepting network requests, or by using a license key generator. All of these bypasses are relatively painless for the user.
   - Modifying the executable introduces pain because (a) it breaks the code signature, which can be frightening to a user; and (b) a user will have to wait for a cracker to modify updated software, which delays (sometimes indefinitely) new features and bug fixes.
 - The software should not require Internet access every time the application is launched.
@@ -40,9 +40,7 @@ In order to enable different licensing models (e.g. full access vs. “Home Prem
 
 #### License Activation
 
-A license is specific to the computer that the software is running on. Therefore, the computer’s hardware UUID is a key component of the license data model.
-
-Activation involves sending the computer’s hardware UUID and, if activating a purchase, the user’s license key to an activation server. The server returns an existing license if the parameters match or returns a new license if the quota for the license key has not been exceeded.
+Activation involves sending the device’s hardware UUID and, if activating a purchase, the user’s license key to an activation server. The server returns the license if the software was previously activated on the device or if the device quota for the license has not been exceeded.
 
 The software stores the license and validates it when needed (e.g. when the application is launched).
 
@@ -60,7 +58,7 @@ A digital signature is an encrypted hash of a message. The workflow looks like t
 
 The activation server computes the signature of the license data before transmitting the license data and its signature to the client. This library (the client) stores the license data along with its signature.
 
-Whenever the library loads the license, it verifies that the signature matches the license data and that the stored computer hardware UUID matches the host computer’s hardware UUID.
+Whenever the library loads the license, it verifies that the signature matches the license data and that the stored device hardware UUID matches the host device’s hardware UUID.
 
 The application is responsible for performing additional license validation (e.g. enforcing trial expiration). This separation of concerns gives the application more flexibility in its software licensing design.
 

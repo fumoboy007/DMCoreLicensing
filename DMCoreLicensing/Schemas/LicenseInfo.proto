@@ -23,14 +23,14 @@
 syntax = "proto3";
 
 message LicenseInfo {
-   bytes computer_hardware_uuid = 1;
+   bytes device_uuid = 1;
 
    oneof specific_info {
       TrialLicenseInfo trial = 2;
       PurchasedLicenseInfo purchased = 3;
    }
 
-   bytes extra_info = 16;
+   bytes extra_info = 4;
 }
 
 message TrialLicenseInfo {

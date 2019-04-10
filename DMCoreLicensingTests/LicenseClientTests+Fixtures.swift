@@ -39,7 +39,7 @@ extension LicenseClientTests {
    }()
    static let publicKey = SecKeyCopyPublicKey(privateKey)!
 
-   static let computerHardwareUUID = SystemInformation.shared.hardwareUUID!
+   static let deviceUUID = SystemInformation.shared.hardwareUUID!
    static let extraInfo = Data([1, 2, 3])
 
    static let expirationDate = Date.distantFuture
@@ -68,7 +68,7 @@ extension LicenseClientTests {
 
    private static func makeValidLicenseInfo(for specificLicenseInfo: LicenseInfo.OneOf_SpecificInfo) -> LicenseInfo {
       var licenseInfo = LicenseInfo()
-      licenseInfo.computerHardwareUuid = computerHardwareUUID.data
+      licenseInfo.deviceUuid = deviceUUID.data
       licenseInfo.specificInfo = specificLicenseInfo
       licenseInfo.extraInfo = extraInfo
 
@@ -83,9 +83,9 @@ extension LicenseClientTests {
       return makeValidLicenseInfo(for: .purchased(makeValidPurchasedLicenseInfo()))
    }
 
-   static func makeLicenseInfoForDifferentComputer() -> LicenseInfo {
+   static func makeLicenseInfoForDifferentDevice() -> LicenseInfo {
       var licenseInfo = makeValidLicenseInfoForTrial()
-      licenseInfo.computerHardwareUuid = UUID().data
+      licenseInfo.deviceUuid = UUID().data
 
       return licenseInfo
    }
@@ -260,8 +260,8 @@ extension LicenseClientTests {
       return makeActivationResponse(with: nil, activationError: "license_key_not_found")
    }
 
-   static func makePurchaseActivationResponseWithLicenseQuotaExceededError() -> StubResponse {
-      return makeActivationResponse(with: nil, activationError: "license_quota_exceeded")
+   static func makePurchaseActivationResponseWithDeviceQuotaExceededError() -> StubResponse {
+      return makeActivationResponse(with: nil, activationError: "device_quota_exceeded")
    }
 
    static func makePurchaseActivationResponseWithUnrecognizedError() -> StubResponse {
