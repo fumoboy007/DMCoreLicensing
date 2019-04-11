@@ -165,8 +165,9 @@ public class LicenseClient {
                              over plaintext HTTP.
     - Parameter completionQueue: The dispatch queue that the completion handler will run on.
     - Parameter completionHandler: The closure that is called when the activation succeeds or fails.
-    - Parameter result: The license or an `ActivationError`. Note that the trial activation endpoint will
-                        return a purchased license if a purchase was previously activated on this device.
+    - Parameter result: The license or an `ActivationError`. Note that, depending on the server-side logic,
+                        the trial activation endpoint may return a purchased license if a purchase was
+                        previously activated on this device.
     */
    public func activateTrial(usingEndpoint endpointURL: URL,
                              runningCompletionHandlerOn completionQueue: DispatchQueue,
