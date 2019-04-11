@@ -23,10 +23,10 @@
 syntax = "proto3";
 
 message SignedBundle {
-   enum KeyType {
-      KEY_TYPE_RSA_4096 = 0;
+   enum PublicKeyType {
+      PUBLIC_KEY_TYPE_PKCS1_RSA_4096 = 0;
    }
-   KeyType key_type = 1;
+   PublicKeyType public_key_type = 1;
    bytes public_key = 2;
 
    enum SignatureAlgorithm {

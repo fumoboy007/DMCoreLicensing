@@ -108,7 +108,7 @@ extension LicenseClientTests {
                                             nil)! as Data
 
       var signedBundle = SignedBundle()
-      signedBundle.keyType = .rsa4096
+      signedBundle.publicKeyType = .pkcs1Rsa4096
       signedBundle.publicKey = SecKeyCopyExternalRepresentation(publicKey, nil)! as Data
       signedBundle.signatureAlgorithm = .rsaPssSha512
       signedBundle.signature = signature
@@ -131,7 +131,7 @@ extension LicenseClientTests {
 
    static func makeSignedBundleWithUnsupportedKeyType() -> SignedBundle {
       var signedBundle = makeValidSignedBundleForTrial()
-      signedBundle.keyType = .UNRECOGNIZED(-1)
+      signedBundle.publicKeyType = .UNRECOGNIZED(-1)
 
       return signedBundle
    }

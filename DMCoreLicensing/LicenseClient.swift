@@ -471,8 +471,8 @@ public class LicenseClient {
 
    private func verifySignature(in signedBundle: SignedBundle) throws {
       let keyAttributes: [CFString: Any]
-      switch signedBundle.keyType {
-      case .rsa4096:
+      switch signedBundle.publicKeyType {
+      case .pkcs1Rsa4096:
          keyAttributes = [
             kSecAttrKeyType: kSecAttrKeyTypeRSA,
             kSecAttrKeyClass: kSecAttrKeyClassPublic,
@@ -483,15 +483,17 @@ public class LicenseClient {
          throw LicenseValidationError.unsupportedKeyType(internalKeyTypeID: keyType)
       }
 
-      let publicKeyData = signedBundle.publicKey
-
       var unmanagedError: Unmanaged<CFError>?
-      guard let publicKey = SecKeyCreateWithData(publicKeyData as CFData, keyAttributes as CFDictionary, &unmanagedError) else {
+      // `SecKeyCreateWithData` assumes the data is PKCS#1-formatted for RSA keys.
+      guard let publicKey = SecKeyCreateWithData(signedBundle.publicKey as CFData, keyAttributes as CFDictionary, &unmanagedError) else {
          let error = unmanagedError?.takeRetainedValue()
          throw LicenseValidationError.invalidPublicKey(keyData: signedBundle.publicKey,
                                                        error: error)
       }
 
+      // We re-export the key rather than using the original key data so that the key data is
+      // guaranteed to be in a consistent format.
+      let publicKeyData = SecKeyCopyExternalRepresentation(publicKey, nil)! as Data
       guard knownPublicKeys.contains(publicKeyData) else {
          throw LicenseValidationError.unknownPublicKey(publicKey)
       }
