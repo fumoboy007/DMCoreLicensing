@@ -346,7 +346,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "SWIFT_PROTOBUF_ROOT=\"$SRCROOT/Carthage/Checkouts/swift-protobuf\"\ncd \"$SWIFT_PROTOBUF_ROOT\" && xcrun swift build -c release -Xswiftc -static-stdlib\n\nPROTOC_GEN_SWIFT=\"$SWIFT_PROTOBUF_ROOT/.build/x86_64-apple-macosx/release/protoc-gen-swift\"\nPROTO_PATH=\"$SRCROOT/DMCoreLicensing/Schemas\"\nGENERATED_PATH=\"$SRCROOT/DMCoreLicensing/Generated\"\n\nrm -rf \"$GENERATED_PATH\"/*.pb.swift\nprotoc --plugin=\"$PROTOC_GEN_SWIFT\" --proto_path=\"$PROTO_PATH\" --swift_out=\"$GENERATED_PATH\" \"$PROTO_PATH\"/*.proto\n";
+			shellScript = "SWIFT_PROTOBUF_ROOT=\"$SRCROOT/Carthage/Checkouts/swift-protobuf\"\ncd \"$SWIFT_PROTOBUF_ROOT\" && xcrun swift build -c release\n\nPROTOC_GEN_SWIFT=\"$SWIFT_PROTOBUF_ROOT/.build/x86_64-apple-macosx/release/protoc-gen-swift\"\nPROTO_PATH=\"$SRCROOT/DMCoreLicensing/Schemas\"\nGENERATED_PATH=\"$SRCROOT/DMCoreLicensing/Generated\"\n\nrm -rf \"$GENERATED_PATH\"/*.pb.swift\nprotoc --plugin=\"$PROTOC_GEN_SWIFT\" --proto_path=\"$PROTO_PATH\" --swift_out=\"$GENERATED_PATH\" \"$PROTO_PATH\"/*.proto\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
