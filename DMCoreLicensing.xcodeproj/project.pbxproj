@@ -288,7 +288,7 @@
 				TargetAttributes = {
 					E68FB130223777F000FB35E4 = {
 						CreatedOnToolsVersion = 10.1;
-						LastSwiftMigration = 1010;
+						LastSwiftMigration = 1020;
 					};
 					E68FB139223777F000FB35E4 = {
 						CreatedOnToolsVersion = 10.1;
