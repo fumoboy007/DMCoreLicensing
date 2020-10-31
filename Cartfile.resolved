@@ -1,2 +1,2 @@
-github "apple/swift-protobuf" "1.5.0"
-github "fumoboy007/Hippolyte" "56363c9a17f65ec8642ae2aedcc5043432b09ab0"
+github "JanGorman/Hippolyte" "1.2.3"
+github "apple/swift-protobuf" "1.13.0"
