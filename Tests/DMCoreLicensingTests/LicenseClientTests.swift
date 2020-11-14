@@ -1,6 +1,6 @@
 // MIT License
 //
-// Copyright © 2019 Darren Mo.
+// Copyright © 2019–2020 Darren Mo.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -27,7 +27,7 @@ import XCTest
 
 import Hippolyte
 
-class LicenseClientTests: XCTestCase {
+final class LicenseClientTests: XCTestCase {
    // MARK: - License Client
 
    private var licenseClient: LicenseClient!

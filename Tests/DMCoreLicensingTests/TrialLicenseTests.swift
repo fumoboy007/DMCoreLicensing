@@ -1,6 +1,6 @@
 // MIT License
 //
-// Copyright © 2019 Darren Mo.
+// Copyright © 2019–2020 Darren Mo.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,6 +20,29 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-struct UserDefaultsKeys {
-   static let license = "DMCLLicense"
+@testable import DMCoreLicensing
+
+import Foundation
+import XCTest
+
+final class TrialLicenseTests: XCTestCase {
+   func testIsExpired() {
+      var trialLicenseInfo = TrialLicenseInfo()
+      trialLicenseInfo.expirationTimestampInSec = Int64(Date.distantPast.timeIntervalSince1970)
+
+      let trialLicense = try! TrialLicense(trialLicenseInfo: trialLicenseInfo,
+                                           extraInfo: Data())
+
+      XCTAssertTrue(trialLicense.isExpired())
+   }
+
+   func testIsNotExpired() {
+      var trialLicenseInfo = TrialLicenseInfo()
+      trialLicenseInfo.expirationTimestampInSec = Int64(Date.distantFuture.timeIntervalSince1970)
+
+      let trialLicense = try! TrialLicense(trialLicenseInfo: trialLicenseInfo,
+                                           extraInfo: Data())
+
+      XCTAssertFalse(trialLicense.isExpired())
+   }
 }

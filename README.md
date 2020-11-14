@@ -2,7 +2,7 @@
 
 A macOS library that implements robust activation and validation of software licenses.
 
-Requires Swift 4.2. Tested on macOS 10.14. MIT license.
+Requires Swift 5.3+. Tested on macOS 11. MIT license.
 
 ## Design
 

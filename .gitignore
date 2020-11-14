@@ -1,8 +1,6 @@
-# Generated Files
-Generated/
-
 # Xcode
 #
+*.xcodeproj/
 build/
 *.pbxuser
 !default.pbxuser
@@ -18,6 +16,10 @@ xcuserdata
 DerivedData
 *.hmap
 *.ipa
+
+# Swift Package Manager
+.build
+Package.resolved
 
 # CocoaPods
 #

@@ -1,0 +1,68 @@
+#!/usr/bin/env bash
+
+# MIT License
+#
+# Copyright © 2020 Darren Mo.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+if [ "$#" -ne 0 ]; then
+   echo "Usage: \"$0\"" 1>&2
+   exit 2
+fi
+
+SCRIPT_NAME="$(basename "$BASH_SOURCE")"
+SCRIPT_DIR="$(dirname "$BASH_SOURCE")"
+cd "$SCRIPT_DIR"
+
+BOLD_TEXT=$(tput bold)
+RESET_TEXT=$(tput sgr0)
+print-status() {
+   echo "$BOLD_TEXT$1$RESET_TEXT" 1>&2
+}
+
+if ! command -v protoc > /dev/null 2>&1; then
+   print-status "\`protoc\` not found. Installing Protobuf..."
+   brew install protobuf \
+      || exit 3
+   print-status "Done installing Protobuf."
+fi
+
+print-status "Building \`protoc-gen-swift\`..."
+SWIFT_BUILD_OPTIONS=(--product protoc-gen-swift --configuration release)
+swift build "${SWIFT_BUILD_OPTIONS[@]}" \
+   || exit 3
+PROTOC_GEN_SWIFT="$(swift build --show-bin-path "${SWIFT_BUILD_OPTIONS[@]}")/protoc-gen-swift"
+print-status "Done building \`$PROTOC_GEN_SWIFT\`."
+
+SRCROOT="Sources/DMCoreLicensing"
+SCHEMAS_DIR="$SRCROOT/Schemas"
+GENERATED_FILES_DIR="$SRCROOT/Generated"
+
+print-status "Removing existing generated Protobuf files at \`$GENERATED_FILES_DIR\`..."
+rm -rf "$GENERATED_FILES_DIR"/*.pb.swift \
+   || exit 1
+print-status "Done removing existing generated Protobuf files."
+
+print-status "Generating Protobuf files from schema files at \`$SCHEMAS_DIR\`..."
+protoc --plugin="$PROTOC_GEN_SWIFT" \
+   --proto_path="$SCHEMAS_DIR" --swift_out="$GENERATED_FILES_DIR" \
+   "$SCHEMAS_DIR"/*.proto \
+      || exit 1
+print-status "Done generating Protobuf files."

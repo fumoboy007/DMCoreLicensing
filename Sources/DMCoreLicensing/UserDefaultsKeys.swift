@@ -1,6 +1,6 @@
 // MIT License
 //
-// Copyright © 2019 Darren Mo.
+// Copyright © 2019–2020 Darren Mo.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,7 +20,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-public enum Result<Success, Failure: Error> {
-   case success(Success)
-   case failure(Failure)
+enum UserDefaultsKeys {
+   static let license = "DMCLLicense"
 }
