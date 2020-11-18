@@ -27,7 +27,6 @@ if [ "$#" -ne 0 ]; then
    exit 2
 fi
 
-SCRIPT_NAME="$(basename "$BASH_SOURCE")"
 SCRIPT_DIR="$(dirname "$BASH_SOURCE")"
 cd "$SCRIPT_DIR"
 
